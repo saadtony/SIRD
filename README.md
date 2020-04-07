@@ -1,0 +1,2 @@
+# SIRD
+SIRD Pandemic Model
