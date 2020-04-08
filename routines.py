@@ -2,7 +2,7 @@ import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
-def SIRDModel(beta, gamma, δ1, δ2,tend,vaccinateAfter,minI,maxI):
+def SIRDModel(beta, gamma, δ1, δ2,tend,vaccinateAfter,minI,maxI,distanceModel):
     # Total population, N.
     N = 1.0
     # Initial number of infected and recovered individuals, I0 and R0.
@@ -14,18 +14,20 @@ def SIRDModel(beta, gamma, δ1, δ2,tend,vaccinateAfter,minI,maxI):
     # The SIRD model differential equations.
     def rhs(SIRD, t, N, beta, gamma, δ1, δ2, vaccinateAfter, minI,maxI):
         S, I, R, D = SIRD
-        δf2 = 0. #δ2
-        δf1 = 0. #δ1
-#         δf2 = δ2 
-#         δf1 = δ1 
-        
-        if (I>=maxI):
-            δf1 = 0.0
-            δf2 = δ2 #* np.sin(2.0*np.pi*t/200)**2
+        if (distanceModel == 'Reactive'):
+            δf2 = 0. #δ2
+            δf1 = 0. #δ1
 
-        if (I <= minI):
-            δf1 = δ1 #- beta/N * I #* np.sin(2.0*np.pi*t/200)**2
-            δf2 = 0.0
+            if (I>=maxI):
+                δf1 = 0.0
+                δf2 = δ2 #* np.sin(2.0*np.pi*t/200)**2
+
+            if (I <= minI):
+                δf1 = δ1 #- beta/N * I #* np.sin(2.0*np.pi*t/200)**2
+                δf2 = 0.0
+        else:
+            δf2 = δ2 
+            δf1 = δ1             
 
         vacc = 0.0
         if (t>= vaccinateAfter):
@@ -36,7 +38,7 @@ def SIRDModel(beta, gamma, δ1, δ2,tend,vaccinateAfter,minI,maxI):
 
         dSdt = - beta/N * S * I + δf1*D - δf2*S - vacc*S 
         dIdt =   beta/N * S * I - gamma * I
-        dRdt =   gamma * I + - vacc*S 
+        dRdt =   gamma * I +  vacc*S 
         dDdt = - δf1*D + δf2*S
         return dSdt, dIdt, dRdt, dDdt
 
@@ -46,14 +48,14 @@ def SIRDModel(beta, gamma, δ1, δ2,tend,vaccinateAfter,minI,maxI):
     sol = odeint(rhs, y0, t, args=(N, beta, gamma, δ1, δ2,vaccinateAfter, minI, maxI))
     return t, sol.T
 
-def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_months, vaccinateAfter, minIpercent=1,maxIpercent=10):
+def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_months, vaccinateAfter, minIpercent=1,maxIpercent=10,distanceModel='Constant'):
     tend = 30.0*tend_months
     gamma = 1.0/incubation_period
     vaccinateAfter = 30*vaccinateAfter
     δ1 = D_to_S
     δ2 = S_to_D
     
-    t,sol = SIRDModel(infection_rate, gamma, δ1, δ2, tend, vaccinateAfter,minIpercent/100.,maxIpercent/100.)
+    t,sol = SIRDModel(infection_rate, gamma, δ1, δ2, tend, vaccinateAfter,minIpercent/100.,maxIpercent/100., distanceModel)
     S, I, R, D = sol
     plt.clf()   
     plt.figure(figsize=[7,4])
