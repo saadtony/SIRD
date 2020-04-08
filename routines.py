@@ -57,8 +57,8 @@ def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_mont
     
     t,sol = SIRDModel(infection_rate, gamma, δ1, δ2, tend, vaccinateAfter,minIpercent/100.,maxIpercent/100., distanceModel)
     S, I, R, D = sol
-    plt.clf()   
     plt.figure(figsize=[7,4])
+#     plt.clf()   
     f = plt.plot
     f(t/30, S*100, 'b', alpha=0.65, lw=2, label='Susceptible')
     f(t/30, R*100, 'g', alpha=0.65, lw=2, label='Recovered')    
