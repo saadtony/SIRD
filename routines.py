@@ -48,7 +48,7 @@ def SIRDModel(beta, gamma, δ1, δ2,tend,vaccinateAfter,minI,maxI,distanceModel)
     sol = odeint(rhs, y0, t, args=(N, beta, gamma, δ1, δ2,vaccinateAfter, minI, maxI))
     return t, sol.T
 
-def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_months, vaccinateAfter, minIpercent=1,maxIpercent=10,distanceModel='Constant'):
+def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_months, vaccinateAfter, minIpercent=1,maxIpercent=10,distanceModel='Constant',semilogy=False):
     tend = 30.0*tend_months
     gamma = 1.0/incubation_period
     vaccinateAfter = 30*vaccinateAfter
@@ -60,6 +60,8 @@ def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_mont
     plt.figure(figsize=[7,4])
 #     plt.clf()   
     f = plt.plot
+    if semilogy:
+        f = plt.semilogy
     f(t/30, S*100, 'b', alpha=0.65, lw=2, label='Susceptible')
     f(t/30, R*100, 'g', alpha=0.65, lw=2, label='Recovered')    
     f(t/30, I*100, 'r', alpha=0.65, lw=2, label='Infected')
@@ -74,7 +76,7 @@ def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_mont
     plt.axhline(y=maxQuarantined,xmin=0,xmax=tend,linestyle='-.',color='k')
 
     # fix the yticks
-    if δ2 > 0.0:
+    if δ2 > 0.0 and semilogy != True:
         ticks = [0.0,50,100,maxInfected, maxQuarantined]
         plt.yticks(ticks)
 
@@ -82,7 +84,8 @@ def plot_sird_model(infection_rate, incubation_period, D_to_S, S_to_D, tend_mont
     plt.ylabel('% Population')
     plt.xlim(0,tend/30)
     plt.yticks()
-    plt.ylim(-10,110)
+    plt.minorticks_on()    
+#     plt.ylim(top=100)
     plt.legend()
     title = 'SIRD with $\delta_1$ =' + str(δ1) + ' $\delta_2$ = ' + str(δ2)
     plt.title(title)
