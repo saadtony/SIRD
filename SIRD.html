@@ -13114,7 +13114,7 @@ div#notebook {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="SIRD:-A-Pandemic-Model-with-Social-Distancing">SIRD: A Pandemic Model with Social Distancing<a class="anchor-link" href="#SIRD:-A-Pandemic-Model-with-Social-Distancing">&#182;</a></h1><p><strong>Prof. Tony Saad (<a>www.tsaad.net</a>) <br/>Department of Chemical Engineering <br/>University of Utah</strong></p>
+<h1 id="SIRD:-A-Epidemic-Model-with-Social-Distancing">SIRD: A Epidemic Model with Social Distancing<a class="anchor-link" href="#SIRD:-A-Epidemic-Model-with-Social-Distancing">&#182;</a></h1><p><strong>Prof. Tony Saad (<a>www.tsaad.net</a>) <br/>Department of Chemical Engineering <br/>University of Utah</strong></p>
 <hr/>
 </div>
 </div>
@@ -13274,7 +13274,7 @@ div#notebook {
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The SIRD pandemic model is a variation of the SIR model with the addition of social distancing. A compartmental diagram is shown below:</p>
+<h1 id="Description">Description<a class="anchor-link" href="#Description">&#182;</a></h1><p>SIRD is an epidemic model for infectious disease and is a variation of the SIR model with the addition of social distancing. A compartmental diagram is shown below:</p>
 <p><img src="sird-diagram.png" alt="SIRD Diagram" width="500"/></p>
 <p>The governing equations are:
 \begin{equation}
@@ -13296,11 +13296,32 @@ where:</p>
 <li>$\delta_1$ is the fraction at which people move from being socially distanced back to the general population</li>
 <li>$\delta_2$ is the average fraction at which people become socially distant</li>
 </ul>
-<p>The Model implemented on this page triggers social distancing when the # of infected reaches a certain percentage of the population (designated as Max Infected in the GUI) and relaxes social distancing when it reaches a minimum # of infected (designated as Min Infected in the GUI).</p>
+<p>The goal of this model is to better understanding the effectiveness of social distancing on "flattening" the curve of an infectious disease. For example, is full lock-down better than a step-by-step implementation of social distancing?</p>
+<h2 id="Social-Distancing-Models">Social Distancing Models<a class="anchor-link" href="#Social-Distancing-Models">&#182;</a></h2><p>Two social distancing models are supported on this page, Constant and Reactive.</p>
+<h3 id="Constant-Social-Distancing">Constant Social Distancing<a class="anchor-link" href="#Constant-Social-Distancing">&#182;</a></h3><p>Assumes that both $\delta_1$ and $\delta_2$ are constant</p>
+<h3 id="Reactive-Social-Distancing">Reactive Social Distancing<a class="anchor-link" href="#Reactive-Social-Distancing">&#182;</a></h3><p>This Model triggers social distancing when the # of infected reaches a certain percentage of the population (designated as Max Infected in the GUI, $I_\text{max}$) and relaxes social distancing when it reaches a minimum # of infected (designated as Min Infected in the GUI, $I_\text{min}$). This produces very interesting dynamics especially as $I_\text{max} \to I_\text{min}$</p>
+<h2 id="Slides">Slides<a class="anchor-link" href="#Slides">&#182;</a></h2><p>You can see a more detailed description in the following <a href='https://github.com/saadtony/SIRD/blob/master/SIRD.pdf'>slides</a>.</p>
 
 </div>
 </div>
 </div>
+
+  
+
+  <div class="
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+  </div>
 
 
 
